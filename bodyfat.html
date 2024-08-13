@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style> 
+        body { 
+            font-family: 'Lato', sans-serif; 
+            margin-top: 20px; 
+            background-image: url('https://smartasset.com/wp-content/uploads/sites/2/2016/03/simple-1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        } 
+        .card, .result { 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            border: 1px solid #21295c; /* dark blue color */
+            margin: 10px; /* add 10px margin on all sides */
+        } 
+        .result { 
+            padding: 20px; 
+            border-radius: 10px; 
+            background-color: #fff; 
+        } 
+        h1, h5 { 
+            font-family: 'Lato', sans-serif; 
+            font-weight: bold; 
+        } 
+    </style> 
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Body Fat Calculator</h1>
+        <form>
+            <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" class="form-control" id="weight" placeholder="Enter your weight">
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm)</label>
+                <input type="number" class="form-control" id="height" placeholder="Enter your height">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" id="calculate">Calculate</button>
+            </div>
+        </form>
+        <br><br>
+        <div class="card result">
+            <div class="card-body">
+                <h5 class="card-title">Body Fat Percentage</h5>
+                <p class="card-text" id="result"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("calculate").addEventListener("click", function() {
+            var weight = parseFloat(document.getElementById("weight").value);
+            var height = parseFloat(document.getElementById("height").value) / 100;
+            var age = parseFloat(document.getElementById("age").value);
+            var gender = document.getElementById("gender").value;
+
+            if (isNaN(weight) || isNaN(height) || isNaN(age)) {
+                document.getElementById("result").innerHTML = "Please enter valid numbers";
+                return;
+            }
+
+            var bmi = weight / (height * height);
+            var bodyFatPercentage;
+
+            if (gender === "male") {
+                bodyFatPercentage = (1.20 * bmi) + (0.23 * age) - 16.2;
+            } else {
+                bodyFatPercentage = (1.20 * bmi) + (0.23 * age) - 5.4;
+            }
+
+            document.getElementById("result").innerHTML = "Body fat percentage is: " + bodyFatPercentage.toFixed(2) + "%";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /> 
+    <style> 
+        body { 
+        font-family: 'Lato', sans-serif; 
+        margin-top: 20px; 
+        background-image: url('https://smartasset.com/wp-content/uploads/sites/2/2016/03/simple-1.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        } 
+        .card, .result { 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        border: 1px solid #21295c; /* dark blue color */
+        margin: 10px; /* add 10px margin on all sides */
+        } 
+        .result { 
+        padding: 20px; 
+        border-radius: 10px; 
+        background-color: #fff; 
+        } 
+        h1, h5 { 
+        font-family: 'Lato', sans-serif; 
+        font-weight: bold; 
+        } 
+    </style> 
+</head> 
+<body>
+    <div class="container">
+        <h1 class="text-center">Simple Interest Calculator</h1>
+        <form>
+            <div class="form-group">
+                <label for="principal">Principal Amount( <i class="fas fa-money-bill-alt"></i> )</label>
+                <input type="number" class="form-control" id="principal" placeholder="Enter principal amount">
+            </div>
+            <div class="form-group">
+                <label for="years">Months( <i class="fas fa-clock"></i> )</label>
+                <input type="number" class="form-control" id="years" placeholder="Enter number of months">
+            </div>
+            <div class="form-group">
+                <label for="rate">Rate of Interest( <i class="fas fa-percentage"></i> )</label>
+                <input type="number" class="form-control" id="rate" placeholder="Enter rate of interest">
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" id="calculate">Calculate</button>
+            </div>
+        </form>
+        <br><br>
+        <div class="card result">
+            <div class="card-body">
+                <h5 class="card-title">Simple Interest</h5>
+                <p class="card-text" id="result"></p>
+            </div>
+        </div>
+        <br><br>
+        <div class="card result">
+            <div class="card-body">
+                <h5 class="card-title">Total Due Amount : <span id="total-amount"></span></h5>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("calculate").addEventListener("click", function() {
+            var principal = parseFloat(document.getElementById("principal").value);
+            var years = parseFloat(document.getElementById("years").value);
+            var rate = parseFloat(document.getElementById("rate").value);
+
+            if (isNaN(principal) || isNaN(years) || isNaN(rate)) {
+                document.getElementById("result").innerHTML = "Please enter valid numbers";
+                document.getElementById("total-amount").innerHTML = "";
+            } else {
+                var interest = (principal * years * rate) / 100;
+                var totalAmount = principal + interest;
+                document.getElementById("result").innerHTML = "The simple interest is: " + interest.toFixed(2);
+                document.getElementById("total-amount").innerHTML = " " + totalAmount.toFixed(2);
+            }
+        });
+    </script>
+</body>
+</html>

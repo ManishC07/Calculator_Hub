@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /> 
+    <style> 
+        body { 
+        font-family: 'Lato', sans-serif; 
+        margin-top: 20px; 
+        background-image: url('https://smartasset.com/wp-content/uploads/sites/2/2016/03/simple-1.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        } 
+        .card, .result { 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        border: 1px solid #21295c; /* dark blue color */
+        margin: 10px; /* add 10px margin on all sides */
+        } 
+        .result { 
+        padding: 20px; 
+        border-radius: 10px; 
+        background-color: #fff; 
+        } 
+        h1, h5 { 
+        font-family: 'Lato', sans-serif; 
+        font-weight: bold; 
+        } 
+    </style> 
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Currency Converter</h1>
+        <form>
+            <div class="form-group">
+                <label for="from-currency">From Currency <i class="fas fa-arrow-left"></i></label>
+                <select class="form-control" id="from-currency">
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="CHF">CHF - Swiss Franc</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="MXN">MXN - Mexican Peso</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="to-currency">To Currency <i class="fas fa-arrow-right"></i></label>
+                <select class="form-control" id="to-currency">
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="CHF">CHF - Swiss Franc</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="MXN">MXN - Mexican Peso</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" id="convert">Convert</button>
+            </div>
+        </form>
+        <br><br>
+        <div class="card result">
+            <div class="card-body">
+                <h5 class="card-title">Converted Amount</h5>
+                <p class="card-text" id="result"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Example exchange rates - replace these with actual rates from an API
+        var exchangeRates = {
+            'USD': {'EUR': 0.91, 'GBP': 0.77, 'JPY': 146.67, 'INR': 83.15, 'AUD': 1.51, 'CAD': 1.37, 'CHF': 0.92, 'CNY': 7.23, 'MXN': 17.47},
+            'EUR': {'USD': 1.10, 'GBP': 0.85, 'JPY': 161.85, 'INR': 91.22, 'AUD': 1.66, 'CAD': 1.51, 'CHF': 1.01, 'CNY': 7.94, 'MXN': 19.18},
+            'GBP': {'USD': 1.30, 'EUR': 1.18, 'JPY': 189.57, 'INR': 106.37, 'AUD': 1.95, 'CAD': 1.76, 'CHF': 1.19, 'CNY': 9.37, 'MXN': 22.54},
+            'JPY': {'USD': 0.0068, 'EUR': 0.0062, 'GBP': 0.0053, 'INR': 0.55, 'AUD': 0.0103, 'CAD': 0.0094, 'CHF': 0.0062, 'CNY': 0.0494, 'MXN': 0.1181},
+            'INR': {'USD': 0.012, 'EUR': 0.011, 'GBP': 0.0094, 'JPY': 1.81, 'AUD': 0.019, 'CAD': 0.017, 'CHF': 0.012, 'CNY': 0.091, 'MXN': 0.20},
+            'AUD': {'USD': 0.66, 'EUR': 0.60, 'GBP': 0.51, 'JPY': 97.24, 'INR': 52.66, 'CAD': 0.91, 'CHF': 0.61, 'CNY': 4.79, 'MXN': 11.53},
+            'CAD': {'USD': 0.73, 'EUR': 0.66, 'GBP': 0.57, 'JPY': 106.61, 'INR': 59.14, 'AUD': 1.10, 'CHF': 0.67, 'CNY': 5.26, 'MXN': 12.68},
+            'CHF': {'USD': 1.09, 'EUR': 0.99, 'GBP': 0.84, 'JPY': 161.47, 'INR': 84.12, 'AUD': 1.64, 'CAD': 1.50, 'CNY': 7.87, 'MXN': 18.94},
+            'CNY': {'USD': 0.14, 'EUR': 0.13, 'GBP': 0.11, 'JPY': 20.23, 'INR': 10.97, 'AUD': 0.21, 'CAD': 0.19, 'CHF': 0.13, 'MXN': 2.41},
+            'MXN': {'USD': 0.057, 'EUR': 0.052, 'GBP': 0.044, 'JPY': 8.47, 'INR': 5.02, 'AUD': 0.087, 'CAD': 0.079, 'CHF': 0.053, 'CNY': 0.41}
+        };
+
+        function updateConversionRate() {
+            var fromCurrency = document.getElementById("from-currency").value;
+            var toCurrency = document.getElementById("to-currency").value;
+            
+            if (fromCurrency === toCurrency) {
+                document.getElementById("result").innerHTML = "Select different currencies.";
+                return;
+            }
+
+            var rate = exchangeRates[fromCurrency][toCurrency];
+            var amount = parseFloat(document.getElementById("amount").value);
+
+            if (isNaN(amount)) {
+                document.getElementById("result").innerHTML = "Please enter a valid amount.";
+                return;
+            }
+
+            var convertedAmount = amount * rate;
+            document.getElementById("result").innerHTML = "Converted amount is: " + convertedAmount.toFixed(2);
+        }
+
+        document.getElementById("convert").addEventListener("click", updateConversionRate);
+
+        // Automatically update conversion when currency selections change
+        document.getElementById("from-currency").addEventListener("change", updateConversionRate);
+        document.getElementById("to-currency").addEventListener("change", updateConversionRate);
+    </script>
+</body>
+</html>
